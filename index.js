@@ -77,7 +77,7 @@ function extractChinese(list, rootPath) {
 
 function extract(rootPath) {
   const files = glob.sync(
-    '{*.{js,jsx,ts,tsx},!(node_modules|locales|output)**/*.{js,jsx,ts,tsx}}',
+    '{*.{js,jsx,ts,tsx},!(node_modules|locales|output)/**/*.{js,jsx,ts,tsx}}',
     {
       cwd: rootPath,
     },
@@ -185,7 +185,7 @@ function generateCode(ast, filePath) {
 }
 
 function inject(rootPath, localeFilePath, outputPath) {
-  const files = glob.sync(path.resolve(rootPath, './**/*.tsx'));
+  const files = glob.sync(path.resolve(rootPath, './**/*.{jsx,tsx}'));
   const localeCode = fse
     .readFileSync(localeFilePath)
     .toString()
