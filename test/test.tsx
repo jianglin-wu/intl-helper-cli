@@ -1,4 +1,5 @@
-const text = {};
+/* eslint-disable */
+const text: any = {};
 text.text1 = `已停止服务${moment(updatedAt).toNow(true)}`;
 text.text2 = `已服务${moment(updatedAt).toNow(true)}`;
 text.text3 = `已服务1${moment(updatedAt).toNow(true)}已服务2${moment(
