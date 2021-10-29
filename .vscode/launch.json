@@ -12,7 +12,17 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/index.js",
-            "args": ["extract", "./"]
+            "args": ["extract", "./test"]
+        },
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "inject test",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/index.js",
+            "args": ["inject", "./test", "-l", "./locales/zh-CN.js", "-o", "./output"]
         }
     ]
 }
