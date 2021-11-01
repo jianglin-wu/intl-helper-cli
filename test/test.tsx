@@ -1,3 +1,5 @@
+import React from 'react';
+
 /* eslint-disable */
 const text: any = {};
 text.text1 = `已停止服务${moment(updatedAt).toNow(true)}`;
