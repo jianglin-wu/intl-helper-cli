@@ -62,5 +62,5 @@ $ intl-helper-cli inject ./ -l ./locales/zh-CN.js -o ./
 命令行执行完后，代码格式可能会错乱，需要格式美化一下代码。
 
 ```shell
-$ npx prettier --write ./src/pages/s-screen/**/*.tsx
+$ npx prettier --write ./src/pages/xxx/**/*.tsx
 ```
