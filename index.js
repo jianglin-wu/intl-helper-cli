@@ -1,4 +1,5 @@
 require('@babel/register')({
   extensions: ['.ts'],
 });
-require('./src/index');
+// require('./src/translate');
+require('./src/cli');

@@ -1,6 +1,27 @@
 import React from 'react';
+import { formatMessage } from 'umi';
+import style from './index.less';
+import * as R from 'ramda';
 
-/* eslint-disable */
+const Appnn = () => {
+  return (
+    <FormattedMessage
+      id="app.preview.down.block"
+      defaultMessage="下载此页面到本地项目"
+    />
+  );
+};
+
+const Appaa = () => {
+  // hello
+  return formatMessage({
+    id: 'sdf.sdaf',
+    defaultMessage: '测试123',
+  });
+};
+
+
+
 const text: any = {};
 text.text1 = `已停止服务${moment(updatedAt).toNow(true)}`;
 text.text2 = `已服务${moment(updatedAt).toNow(true)}`;

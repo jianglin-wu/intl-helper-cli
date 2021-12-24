@@ -23,7 +23,6 @@
 
 https://formatjs.io/docs/getting-started/application-workflow
 
-
 方式二：
 如何项目老旧不易升级，使用本项目提供的助手工具，可以减少三分之二的体力工作：
 
