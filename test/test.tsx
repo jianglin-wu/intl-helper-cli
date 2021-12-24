@@ -20,8 +20,6 @@ const Appaa = () => {
   });
 };
 
-
-
 const text: any = {};
 text.text1 = `已停止服务${moment(updatedAt).toNow(true)}`;
 text.text2 = `已服务${moment(updatedAt).toNow(true)}`;
@@ -64,7 +62,7 @@ export default () => {
     <div className={style.body}>
       <img src={beehiveEmpty} alt="" className={style.img} />
       <div>萨芬末世</div>
-      <Link to="/honey/beehive/create">
+      <Link to="/create">
         <Button type="primary" className={style.btn}>
           萨芬末世
         </Button>
