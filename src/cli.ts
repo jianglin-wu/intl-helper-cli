@@ -76,4 +76,11 @@ program
     }
   });
 
+// TODO:
+// 待翻译内容地图（可以指定展示层级，类似 tree -L 3）
+// 加载已有翻译内容（递归分析合并的配置，将 ... 扩展运算符的内容一起合并）
+// 为已有的翻译内容增加 defaultMessage
+// 为英文内容增加中文注释
+// prettier code
+
 program.parse(process.argv);

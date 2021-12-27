@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/prefer-default-export
+import prettier from 'prettier';
 import md5 from 'md5';
-import fse from 'fs-extra';
 import { parse } from '@babel/parser';
 import generate from '@babel/generator';
 import * as babelTypes from '@babel/types';
@@ -26,7 +26,7 @@ export function createLocale(namespace: string, texts: string[]) {
   return conf;
 }
 
-export function generateCode(ast: babelTypes.Node, filePath?: string) {
+export function generateCode(ast: babelTypes.Node) {
   const { code } = generate(ast, {
     comments: true,
     compact: false,
@@ -38,10 +38,20 @@ export function generateCode(ast: babelTypes.Node, filePath?: string) {
       minimal: true,
     },
   });
+  return code;
+}
+
+const prettierDefaultOptions = {
+  semi: true,
+};
+export async function codeFormat(code: string, filePath?: string) {
+  let options;
   if (filePath) {
-    fse.outputFileSync(filePath, code);
-  } else {
-    // eslint-disable-next-line no-console
-    console.log('\n', code);
+    options = await prettier.resolveConfig(filePath);
   }
+  const formatted = prettier.format(code, {
+    ...(options || prettierDefaultOptions),
+    parser: 'babel',
+  });
+  return formatted;
 }

@@ -19,6 +19,7 @@ specifiers:
   '@types/fs-extra': ^9.0.13
   '@types/glob': ^7.2.0
   '@types/md5': ^2.3.1
+  '@types/prettier': ^2.4.2
   '@types/qs': ^6.9.7
   '@typescript-eslint/eslint-plugin': ^5.4.0
   '@typescript-eslint/parser': ^5.4.0
@@ -52,6 +53,7 @@ dependencies:
   '@types/babel__template': 7.4.1
   '@types/glob': 7.2.0
   '@types/md5': 2.3.1
+  '@types/prettier': 2.4.2
   '@types/qs': 6.9.7
   commander: 8.3.0
   eslint-config-prettier: 8.3.0_eslint@8.3.0
@@ -1427,6 +1429,10 @@ packages:
 
   /@types/node/16.11.10:
     resolution: {integrity: sha512-3aRnHa1KlOEEhJ6+CvyHKK5vE9BcLGjtUpwvqYLRvYNQKMfabu3BwfJaA/SLW8dxe28LsNDjtHwePTuzn3gmOA==}
+
+  /@types/prettier/2.4.2:
+    resolution: {integrity: sha512-ekoj4qOQYp7CvjX8ZDBgN86w3MqQhLE1hczEJbEIjgFEumDy+na/4AJAbLXfgEWFNB2pKadM5rPFtuSGMWK7xA==}
+    dev: false
 
   /@types/qs/6.9.7:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}

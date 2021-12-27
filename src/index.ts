@@ -6,6 +6,7 @@ import {
   getNamespace,
   createLocale,
   generateCode,
+  codeFormat,
 } from './core/common';
 import { collectText } from './core/extract';
 import { injectFormatMassage, readLocaleData } from './core/inject';
@@ -14,7 +15,7 @@ import { ILocaleData } from './interface';
 import {
   findFiles,
   isIncludesChinese,
-  generateLocaleFile,
+  generateLocaleCode,
   formatEn,
 } from './utils';
 
@@ -44,7 +45,26 @@ class IntlHelper {
     return fileOrDirPath;
   }
 
+  async outputData(data: string, outputDirOrFile?: string, filepath?: string) {
+    if (outputDirOrFile) {
+      let outputPath = path.resolve(this.rootPath, outputDirOrFile);
+      if (filepath) {
+        outputPath = path.resolve(outputPath, filepath);
+      }
+      const result = await codeFormat(data, outputPath);
+      fse.outputFileSync(outputPath, result);
+    } else {
+      // eslint-disable-next-line no-console
+      console.log('\n----------', filepath || 'output', '---------->\n');
+      const result = await codeFormat(data);
+      // eslint-disable-next-line no-console
+      console.log(result);
+    }
+  }
+
   extract(targetDir: string, outputFile?: string) {
+    // eslint-disable-next-line no-console
+    console.log('\x1B[36m\nextract:\n\x1B[0m');
     const targetPath = this.resolve(targetDir, true);
     const files = findFiles(targetPath);
     const texts = new Set<string>();
@@ -65,14 +85,20 @@ class IntlHelper {
 
     const namespace = getNamespace(targetPath);
     const data = createLocale(namespace, [...texts]);
-    generateLocaleFile(this.rootPath, data, outputFile);
+    this.outputData(
+      generateLocaleCode(data, this.rootPath, outputFile),
+      outputFile,
+    );
   }
 
   inject(targetDir: string, localeFile: string, outputDir?: string) {
+    // eslint-disable-next-line no-console
+    console.log('\x1B[36m\ninject:\n\x1B[0m');
     const targetPath = this.resolve(targetDir, true);
     const localeFilePath = this.resolve(localeFile, true);
     const files = findFiles(targetPath);
-    const localeData = readLocaleData(localeFilePath);
+    const localeCode = fse.readFileSync(localeFilePath).toString();
+    const localeData = readLocaleData(localeCode);
 
     const localeMap: ILocaleData = {};
     Object.entries(localeData).forEach(([key, value]) => {
@@ -87,21 +113,19 @@ class IntlHelper {
         .toString();
       const ast = codeParse(code);
       injectFormatMassage(ast, localeMap);
-      if (outputDir) {
-        const outputDirPath = this.resolve(outputDir, false);
-        generateCode(ast, path.resolve(outputDirPath, filePath));
-      } else {
-        generateCode(ast);
-      }
+      this.outputData(generateCode(ast), outputDir, filePath);
     });
   }
 
   async translate(localeFile: string, outputFile?: string) {
+    // eslint-disable-next-line no-console
+    console.log('\x1B[36m\ntranslate:\n\x1B[0m');
     const localeFilePath = this.resolve(localeFile, true);
     if (!this.translateService) {
       throw Error('请配置翻译服务 appId 和 appKey');
     }
-    const dataSource: ILocaleData = readLocaleData(localeFilePath);
+    const localeCode = fse.readFileSync(localeFilePath).toString();
+    const dataSource: ILocaleData = readLocaleData(localeCode);
     const query = Object.values(dataSource);
     // 过滤掉模板字符串
     // const query = Object.values(dataSource).filter(
@@ -125,10 +149,10 @@ class IntlHelper {
       }
     });
 
-    const outputFilePath = outputFile
-      ? this.resolve(outputFile, false)
-      : undefined;
-    generateLocaleFile(this.rootPath, result, outputFilePath);
+    this.outputData(
+      generateLocaleCode(result, this.rootPath, outputFile),
+      outputFile,
+    );
   }
 
   async replaceContent(targetDir: string, outputDir: string) {

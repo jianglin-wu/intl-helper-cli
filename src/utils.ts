@@ -1,7 +1,9 @@
-import path from 'path';
+import fs from 'fs';
 import fse from 'fs-extra';
+import path from 'path';
 import glob from 'glob';
 import { ILocaleData } from './interface';
+import { appendLocaleData } from './core/inject';
 
 export function isIncludesChinese(string: string) {
   return /[\u4e00-\u9fa5]+/.test(string);
@@ -18,27 +20,32 @@ export function formatTemplateTexts(texts: string[]) {
 }
 
 export function findFiles(rootPath: string): string[] {
-  return glob.sync(
-    '{*.{js,jsx,ts,tsx},!(node_modules|locales|output)/**/*.{js,jsx,ts,tsx}}',
-    {
-      cwd: rootPath,
-    },
-  );
+  return glob
+    .sync(
+      '{*.{ts,tsx},!(node_modules|locales|output)/**/*.{ts,tsx},**/!(node_modules|locales|output)/**/*.{ts,tsx}}',
+      {
+        cwd: rootPath,
+      },
+    )
+    .filter(
+      (filepath) =>
+        !/\/locales\//.test(filepath) &&
+        !/\/output\//.test(filepath) &&
+        !/\/node_modules\//.test(filepath),
+    );
 }
 
-export function generateLocaleFile(
-  rootPath: string,
+export function generateLocaleCode(
   data: ILocaleData,
-  filename?: string,
+  rootPath: string,
+  outputFile?: string,
 ) {
-  const code = `export default ${JSON.stringify(data, null, 2)}`;
-  if (filename) {
-    const outputFile = path.resolve(rootPath, './locales/', filename);
-    fse.outputFileSync(outputFile, code);
-  } else {
-    // eslint-disable-next-line no-console
-    console.log(code);
+  let localeCode = 'export default {}';
+  const outputPath = outputFile ? path.resolve(rootPath, outputFile) : '';
+  if (outputFile && fs.existsSync(outputPath)) {
+    localeCode = fse.readFileSync(outputPath).toString();
   }
+  return appendLocaleData(localeCode, data);
 }
 
 /**

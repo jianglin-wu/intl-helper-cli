@@ -1,7 +1,6 @@
-import fse from 'fs-extra';
 import traverse from '@babel/traverse';
 import * as babelTypes from '@babel/types';
-import { codeParse } from './common';
+import { codeParse, generateCode } from './common';
 import { formatTemplateTexts } from '../utils';
 import { ILocaleData } from '../interface';
 
@@ -106,8 +105,7 @@ function createFormatterVariables(
   return undefined;
 }
 
-export function readLocaleData(filePath: string) {
-  const code: string = fse.readFileSync(filePath).toString();
+export function readLocaleData(code: string) {
   const ast = codeParse(code);
   const localeData: ILocaleData = {};
   traverse(ast, {
@@ -128,6 +126,38 @@ export function readLocaleData(filePath: string) {
     },
   });
   return localeData;
+}
+
+export function appendLocaleData(localeCode: string, appendData: ILocaleData) {
+  const existed = readLocaleData(localeCode);
+  const ast = codeParse(localeCode);
+  traverse(ast, {
+    ExportDefaultDeclaration(nodePath) {
+      if (!babelTypes.isObjectExpression(nodePath.node.declaration)) {
+        return;
+      }
+      const { properties } = nodePath.node.declaration;
+      Object.entries(appendData).forEach(([key, value]) => {
+        if (existed[key]) {
+          if (existed[key] !== value) {
+            // eslint-disable-next-line no-console
+            console.error('存在冲突字段：', key);
+            // eslint-disable-next-line no-console
+            console.error(
+              `已有属性值 "${existed[key]}" 与新增属性值 "${value}" 冲突`,
+            );
+          }
+          return;
+        }
+        const propertyNode = babelTypes.objectProperty(
+          babelTypes.stringLiteral(key),
+          babelTypes.stringLiteral(value),
+        );
+        properties.push(propertyNode);
+      });
+    },
+  });
+  return generateCode(ast);
 }
 
 export function injectFormatMassage(
