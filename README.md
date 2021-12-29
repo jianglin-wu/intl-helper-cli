@@ -87,3 +87,28 @@ $ intl-helper-cli danger  --appid <appid> --key <key> ./test/scene1 -o ./output
 ```shell
 $ npx prettier --write ./src/pages/xxx/**/*.tsx
 ```
+
+## 开发
+
+拉取项目：
+
+```shell
+$ git clone xxxxxx
+$ cd intl-helper-cli
+```
+
+安装构建（yarn）：
+
+```shell
+$ yarn
+$ yarn build
+$ yarn link
+```
+
+安装构建（pnpm）：
+
+```shell
+$ pnpm install
+$ pnpm build
+$ pnpm link --global
+```
