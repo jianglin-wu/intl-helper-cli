@@ -70,7 +70,7 @@ $ intl-helper-cli inject ./test/scene1 -f ./output/locales/zh-CN.ts -o ./output
 
 ### 自动翻译
 
-执行 `intl-helper-cli danger  --appid <appid> --key <key> <targetDir> -o <outputDir>` 命令，此命令相当于将 `extract`, `translate`, `inject` 三个命令按顺序一起执行。
+执行 `intl-helper-cli danger --appid <appid> --key <key> <targetDir> -o <outputDir>` 命令，此命令相当于将 `extract`, `translate`, `inject` 三个命令按顺序一起执行。
 
 例如（执行前确保无其他代码修改，以免丢失代码）：
 
