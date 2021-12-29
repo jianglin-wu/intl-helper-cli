@@ -1,9 +1,4 @@
-import fs from 'fs';
-import fse from 'fs-extra';
-import path from 'path';
 import glob from 'glob';
-import { ILocaleData } from './interface';
-import { appendLocaleData } from './core/inject';
 
 export function isIncludesChinese(string: string) {
   return /[\u4e00-\u9fa5]+/.test(string);
@@ -33,19 +28,6 @@ export function findFiles(rootPath: string): string[] {
         !/\/output\//.test(filepath) &&
         !/\/node_modules\//.test(filepath),
     );
-}
-
-export function generateLocaleCode(
-  data: ILocaleData,
-  rootPath: string,
-  outputFile?: string,
-) {
-  let localeCode = 'export default {}';
-  const outputPath = outputFile ? path.resolve(rootPath, outputFile) : '';
-  if (outputFile && fs.existsSync(outputPath)) {
-    localeCode = fse.readFileSync(outputPath).toString();
-  }
-  return appendLocaleData(localeCode, data);
 }
 
 /**

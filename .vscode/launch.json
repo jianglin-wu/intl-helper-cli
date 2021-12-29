@@ -1,28 +1,54 @@
 {
-    // 使用 IntelliSense 了解相关属性。
-    // 悬停以查看现有属性的描述。
-    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "pwa-node",
-            "request": "launch",
-            "name": "extract test",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/index.js",
-            "args": ["extract", "./test"]
-        },
-        {
-            "type": "pwa-node",
-            "request": "launch",
-            "name": "inject test",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/index.js",
-            "args": ["inject", "./test", "-l", "./locales/zh-CN.js", "-o", "./output"]
-        }
-    ]
+  // 使用 IntelliSense 了解相关属性。
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "extract scene1",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/index.js",
+      "args": ["extract", "./test/scene1", "-o", "./output/locales/zh-CN.ts"]
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "inject scene1",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/index.js",
+      "args": [
+        "inject",
+        "./test/scene1",
+        "-f",
+        "./output/locales/zh-CN.ts",
+        "-o",
+        "./output"
+      ]
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "extract scene2",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/index.js",
+      "args": ["extract", "./test/scene2", "-o", "./output/locales/zh-CN.ts"]
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "inject scene2",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/index.js",
+      "args": [
+        "inject",
+        "./test/scene2",
+        "-f",
+        "./output/locales/zh-CN.ts",
+        "-o",
+        "./output"
+      ]
+    }
+  ]
 }

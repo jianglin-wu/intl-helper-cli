@@ -21,6 +21,7 @@ specifiers:
   '@types/md5': ^2.3.1
   '@types/prettier': ^2.4.2
   '@types/qs': ^6.9.7
+  '@types/ramda': ^0.27.62
   '@typescript-eslint/eslint-plugin': ^5.4.0
   '@typescript-eslint/parser': ^5.4.0
   commander: ^8.3.0
@@ -34,6 +35,7 @@ specifiers:
   md5: ^2.3.0
   prettier: ^2.5.1
   qs: ^6.10.1
+  ramda: ^0.27.1
   typescript: ^4.5.2
 
 dependencies:
@@ -55,6 +57,7 @@ dependencies:
   '@types/md5': 2.3.1
   '@types/prettier': 2.4.2
   '@types/qs': 6.9.7
+  '@types/ramda': 0.27.62
   commander: 8.3.0
   eslint-config-prettier: 8.3.0_eslint@8.3.0
   fs-extra: 10.0.0
@@ -63,6 +66,7 @@ dependencies:
   md5: 2.3.0
   prettier: 2.5.1
   qs: 6.10.1
+  ramda: 0.27.1
   typescript: 4.5.2
 
 devDependencies:
@@ -1436,6 +1440,12 @@ packages:
 
   /@types/qs/6.9.7:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
+    dev: false
+
+  /@types/ramda/0.27.62:
+    resolution: {integrity: sha512-/s4yTNOk8YXZ2Ys8OqSPmExyWxuKQMCDwjyVowg0RW6F45SlSGSI0sduyhx7RREASowlVJppAvR4KRqMzJnu2g==}
+    dependencies:
+      ts-toolbelt: 6.15.5
     dev: false
 
   /@typescript-eslint/eslint-plugin/5.4.0_5c8ff4cecd5a55e744866c0654edac32:
@@ -2929,6 +2939,10 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
+  /ramda/0.27.1:
+    resolution: {integrity: sha512-PgIdVpn5y5Yns8vqb8FzBUEYn98V3xcPgawAkkgj0YJ0qDsnHCiNmZYfOGMgOvoB0eWFLpYbhxUR3mxfDIMvpw==}
+    dev: false
+
   /readable-stream/2.3.7:
     resolution: {integrity: sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==}
     dependencies:
@@ -3194,6 +3208,10 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: 7.0.0
+
+  /ts-toolbelt/6.15.5:
+    resolution: {integrity: sha512-FZIXf1ksVyLcfr7M317jbB67XFJhOO1YqdTcuGaq9q5jLUoTikukZ+98TPjKiP2jC5CgmYdWWYs0s2nLSU0/1A==}
+    dev: false
 
   /tsconfig-paths/3.12.0:
     resolution: {integrity: sha512-e5adrnOYT6zqVnWqZu7i/BQ3BnhzvGbjEjejFXO20lKIKpwTaupkCPgEfv4GZK1IBciJUEhYs3J3p75FdaTFVg==}

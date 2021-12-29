@@ -20,8 +20,8 @@ export function getNamespace(targetPath: string) {
 
 export function createLocale(namespace: string, texts: string[]) {
   const conf: { [key: string]: string } = {};
-  texts.forEach((text, index) => {
-    conf[`${namespace}.${md5(text)}${index}`] = text;
+  texts.forEach((text) => {
+    conf[`${namespace}.${md5(text)}`] = text;
   });
   return conf;
 }
@@ -50,8 +50,8 @@ export async function codeFormat(code: string, filePath?: string) {
     options = await prettier.resolveConfig(filePath);
   }
   const formatted = prettier.format(code, {
+    parser: 'babel-ts',
     ...(options || prettierDefaultOptions),
-    parser: 'babel',
   });
   return formatted;
 }

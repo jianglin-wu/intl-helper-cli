@@ -83,4 +83,8 @@ program
 // 为英文内容增加中文注释
 // prettier code
 
+// TODO:BUG
+// 忽略 id 自动包含中文的内容
+// 翻译时跳过已有的翻译内容，只翻译新增
+
 program.parse(process.argv);

@@ -9,15 +9,11 @@ import {
   codeFormat,
 } from './core/common';
 import { collectText } from './core/extract';
-import { injectFormatMassage, readLocaleData } from './core/inject';
+import { injectFormatMassage } from './core/inject';
+import { readLocaleData, generateLocaleCode } from './core/locale';
 import Translate from './translate';
 import { ILocaleData } from './interface';
-import {
-  findFiles,
-  isIncludesChinese,
-  generateLocaleCode,
-  formatEn,
-} from './utils';
+import { findFiles, isIncludesChinese, formatEn } from './utils';
 
 interface Options {
   baiduAppId?: string;
@@ -62,7 +58,7 @@ class IntlHelper {
     }
   }
 
-  extract(targetDir: string, outputFile?: string) {
+  async extract(targetDir: string, outputFile?: string) {
     // eslint-disable-next-line no-console
     console.log('\x1B[36m\nextract:\n\x1B[0m');
     const targetPath = this.resolve(targetDir, true);
@@ -85,13 +81,13 @@ class IntlHelper {
 
     const namespace = getNamespace(targetPath);
     const data = createLocale(namespace, [...texts]);
-    this.outputData(
+    await this.outputData(
       generateLocaleCode(data, this.rootPath, outputFile),
       outputFile,
     );
   }
 
-  inject(targetDir: string, localeFile: string, outputDir?: string) {
+  async inject(targetDir: string, localeFile: string, outputDir?: string) {
     // eslint-disable-next-line no-console
     console.log('\x1B[36m\ninject:\n\x1B[0m');
     const targetPath = this.resolve(targetDir, true);
@@ -105,16 +101,21 @@ class IntlHelper {
       localeMap[value] = key;
     });
 
-    files.forEach((filePath) => {
-      // eslint-disable-next-line no-console
-      console.log('filePath:', filePath);
-      const code: string = fse
-        .readFileSync(path.resolve(targetPath, filePath))
-        .toString();
-      const ast = codeParse(code);
-      injectFormatMassage(ast, localeMap);
-      this.outputData(generateCode(ast), outputDir, filePath);
-    });
+    return Promise.all(
+      files.map(async (filePath) => {
+        // eslint-disable-next-line no-console
+        console.log('filePath:', filePath);
+        const code: string = fse
+          .readFileSync(path.resolve(targetPath, filePath))
+          .toString();
+        const ast = codeParse(code);
+        const hasContentChange = injectFormatMassage(ast, localeMap);
+        if (hasContentChange) {
+          return this.outputData(generateCode(ast), outputDir, filePath);
+        }
+        return null;
+      }),
+    );
   }
 
   async translate(localeFile: string, outputFile?: string) {
@@ -131,12 +132,10 @@ class IntlHelper {
     // const query = Object.values(dataSource).filter(
     //   (item) => !/[\{.*?\}|\n]/.test(item),
     // );
-    const { trans_result: transResult } = await this.translateService.fetch(
-      query.join('\n'),
-    );
-
+    const transResult = await this.translateService.fetch(query);
     const dataTranslate: ILocaleData = {};
     transResult.forEach((item) => {
+      // console.log('transResult.item>>', item);
       dataTranslate[item.src] = item.dst;
     });
 
@@ -149,7 +148,7 @@ class IntlHelper {
       }
     });
 
-    this.outputData(
+    await this.outputData(
       generateLocaleCode(result, this.rootPath, outputFile),
       outputFile,
     );
@@ -159,9 +158,9 @@ class IntlHelper {
     const outputDirPath = this.resolve(outputDir, false);
     const localesZhPath = path.resolve(outputDirPath, './locales/zh-CN.ts');
     const localesEnPath = path.resolve(outputDirPath, './locales/en-US.ts');
-    this.extract(targetDir, localesZhPath);
+    await this.extract(targetDir, localesZhPath);
     await this.translate(localesZhPath, localesEnPath);
-    this.inject(targetDir, localesZhPath, outputDirPath);
+    await this.inject(targetDir, localesZhPath, outputDirPath);
   }
 }
 
