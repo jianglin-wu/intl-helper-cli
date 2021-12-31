@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import commander from 'commander';
 import IntlHelper from './index';
 import appConfig from '../package.json';
